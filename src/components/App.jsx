@@ -4,13 +4,29 @@ import PhonebookForm from 'components/PhonebookForm';
 import Filter from 'components/Filter';
 import ContactList from 'components/ContactList';
 
-import { checkEqual } from 'utils';
+import { checkEqual, parseJson } from 'utils';
+
+const LOCAL_STORAGE_KEY = 'phonebookContacts';
 
 export class App extends React.Component {
   state = {
     contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const storageData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storageData) {
+      this.setState({ contacts: parseJson(storageData) });
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify(this.state.contacts)
+    );
+  }
 
   addContact = profile => {
     const { contacts } = this.state;
