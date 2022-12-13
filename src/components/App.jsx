@@ -21,11 +21,13 @@ export class App extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    localStorage.setItem(
-      LOCAL_STORAGE_KEY,
-      JSON.stringify(this.state.contacts)
-    );
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify(this.state.contacts)
+      );
+    }
   }
 
   addContact = profile => {
